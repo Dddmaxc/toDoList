@@ -9,13 +9,15 @@ export type TaskType = {
 }
 
 type PropsType = {
+	id: string
 	title?: string
 	tasks: Array<TaskType>
-	removeTask: (id: string) => void
-	changeFilter: (value: FilterValueType) => void
-	addTask: (title: string) => void
-	changeStatus: (taskId: string, isDone: boolean) => void
+	removeTask: (id: string, todoListId: string) => void
+	changeFilter: (value: FilterValueType, todoListId: string) => void
+	addTask: (title: string, todoListId: string) => void
+	changeStatus: (taskId: string, isDone: boolean, todoListId: string) => void
 	filter: FilterValueType
+	removeTodoList: (todoListId: string) => void
 }
 
 export const TodoList = (props: PropsType) => {
@@ -24,7 +26,7 @@ export const TodoList = (props: PropsType) => {
 
 	const addTask = () => {
 		if (newTaskTitle.trim() !== '') {
-			props.addTask(newTaskTitle.trim())
+			props.addTask(newTaskTitle.trim(), props.id)
 			setNewTaskTitle('')
 		} else {
 			setError('Field is required')
@@ -39,12 +41,19 @@ export const TodoList = (props: PropsType) => {
 		setError(null)
 	}
 
-	const onAllClickHandler = () => props.changeFilter('all')
-	const onActiveClickHandler = () => props.changeFilter('active')
-	const onCompletedClickHandler = () => props.changeFilter('completed')
+	const onAllClickHandler = () => props.changeFilter('all', props.id)
+	const onActiveClickHandler = () => props.changeFilter('active', props.id)
+	const onCompletedClickHandler = () =>
+		props.changeFilter('completed', props.id)
+	const removeTodoList = () => {
+		props.removeTodoList(props.id)
+	}
+
 	return (
 		<div>
-			<h3>{props.title}</h3>
+			<h3>
+				{props.title} <button onClick={removeTodoList}>x</button>
+			</h3>
 			<div>
 				<input
 					value={newTaskTitle}
@@ -58,10 +67,10 @@ export const TodoList = (props: PropsType) => {
 			<ul>
 				{props.tasks.map(t => {
 					const onRemoveHandler = () => {
-						props.removeTask(t.id)
+						props.removeTask(t.id, props.id)
 					}
 					const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-						props.changeStatus(t.id, e.currentTarget.checked)
+						props.changeStatus(t.id, e.currentTarget.checked, props.id)
 					}
 
 					return (
