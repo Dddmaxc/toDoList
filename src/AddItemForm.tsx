@@ -1,4 +1,5 @@
-import { Button } from '@material-ui/core'
+import { Button, IconButton, TextField } from '@material-ui/core'
+import { ControlPoint } from '@mui/icons-material'
 import { ChangeEvent, useState } from 'react'
 import { KeyboardEvent } from 'react'
 
@@ -27,17 +28,19 @@ export const AddItemForms = (props: AddItemFormsType) => {
 
 	return (
 		<>
-			<div>
-				<input
+			<div style={{ margin: '10px' }}>
+				<TextField
 					value={newTaskTitle}
+					variant={'outlined'}
+					label={'Type value'}
 					onChange={onNewTitleChangeHandler}
 					onKeyPress={onKeyPressHandler}
-					className={error ? 'error' : ''}
+					error={!!error}
+					helperText={error}
 				/>
-				<Button onClick={addTask} variant={'contained'} color={'primary'}>
-					+
-				</Button>
-				{error && <div className='error-message'>{error}</div>}
+				<IconButton onClick={addTask} color={'primary'}>
+					<ControlPoint />
+				</IconButton>
 			</div>
 		</>
 	)
