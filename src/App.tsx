@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core'
 import { Menu } from '@mui/icons-material'
 import Typography from '@mui/material/Typography'
+import red from '@mui/material/colors'
 
 export type FilterValueType = 'all' | 'completed' | 'active'
 
@@ -57,7 +58,7 @@ function App() {
 		newTitle: string,
 		todoListId: string
 	) {
-		// достаем новый массив по todolistId
+		// достаем новый массив по todoListId
 		let tasks = tasksObj[todoListId]
 		// найдем нужную таску
 		let task = tasks.find(t => t.id === taskId)
@@ -144,7 +145,7 @@ function App() {
 						<Menu />
 					</IconButton>
 					<Typography variant='h6' color='inherit' component='div'>
-						Photos
+						TodoList
 					</Typography>
 				</Toolbar>
 			</AppBar>

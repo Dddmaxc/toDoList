@@ -6,6 +6,7 @@ import { AddItemForms } from './AddItemForm'
 import { EditableSpan } from './EditableSpan'
 import { Checkbox, IconButton } from '@material-ui/core'
 import { Check, Delete } from '@mui/icons-material'
+import './App.css'
 
 export type TaskType = {
 	id: string
@@ -47,8 +48,8 @@ export const TodoList = (props: PropsType) => {
 		props.addTask(title, props.id)
 	}
 	return (
-		<div>
-			<h3>
+		<div className='container'>
+			<h3 style={{ margin: '20px' }}>
 				<EditableSpan
 					title={props.title || ''}
 					onChange={changeTodoListTitle}
