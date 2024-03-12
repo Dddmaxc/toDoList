@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography'
 
 export type FilterValueType = 'all' | 'completed' | 'active'
 
-type ToDoListType = {
+export type ToDoListType = {
 	id: string
 	title: string
 	filter: FilterValueType
