@@ -1,13 +1,17 @@
 import {
-	AddTodoListAC,
-	ChangeTodoListFilterAC,
-	ChangeTodoListTitleAC,
-	RemoveTodoListAC,
+	addTodoListAC,
+	changeTodoListFilterAC,
+	changeTodoListTitleAC,
+	removeTodoListAC,
 	todoListsReducer,
 } from './Todolists-reducer'
 import { v1 } from 'uuid'
 import { FilterValueType, ToDoListType } from '../App'
+import { TaskType } from '../TodoList'
 
+export type TaskStateType = {
+	[key: string]: Array<TaskType>
+}
 test('current todoList should be removed', () => {
 	let todolistId1 = v1()
 	let todolistId2 = v1()
@@ -17,7 +21,7 @@ test('current todoList should be removed', () => {
 		{ id: todolistId2, title: 'What to buy', filter: 'all' },
 	]
 
-	const endState = todoListsReducer(startState, RemoveTodoListAC(todolistId1))
+	const endState = todoListsReducer(startState, removeTodoListAC(todolistId1))
 
 	expect(endState.length).toBe(1)
 	expect(endState[0].id).toBe(todolistId2)
@@ -34,10 +38,10 @@ test('current todoList should be add', () => {
 		{ id: todolistId2, title: 'What to buy', filter: 'all' },
 	]
 
-	const endState = todoListsReducer(startState, AddTodoListAC(newTodoListTitle))
+	const endState = todoListsReducer(startState, addTodoListAC(newTodoListTitle))
 
 	expect(endState.length).toBe(3)
-	expect(endState[2].title).toBe(newTodoListTitle)
+	expect(endState[0].title).toBe(newTodoListTitle)
 	expect(endState[2].filter).toBe('all')
 })
 test('current todoList should be change its name', () => {
@@ -51,7 +55,7 @@ test('current todoList should be change its name', () => {
 		{ id: todolistId2, title: 'What to buy', filter: 'all' },
 	]
 
-	const action = ChangeTodoListTitleAC(todolistId2, newTodoListTitle)
+	const action = changeTodoListTitleAC(todolistId2, newTodoListTitle)
 
 	const endState = todoListsReducer(startState, action)
 
@@ -69,7 +73,7 @@ test('current filter of todoList should be change ', () => {
 		{ id: todolistId2, title: 'What to buy', filter: 'all' },
 	]
 
-	const action = ChangeTodoListFilterAC(todolistId2, newFilter)
+	const action = changeTodoListFilterAC(todolistId2, newFilter)
 
 	const endState = todoListsReducer(startState, action)
 

@@ -41,7 +41,7 @@ export type TaskStateType = {
 	[key: string]: Array<TaskType>
 }
 
-function App() {
+function AppWithReducers() {
 	function removeTask(id: string, todoListId: string) {
 		const action = removeTaskAC(id, todoListId)
 		dispatchTasksReducer(action)
@@ -164,4 +164,4 @@ function App() {
 	)
 }
 
-export default App
+export default AppWithReducers

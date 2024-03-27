@@ -7,6 +7,16 @@ import { EditableSpan } from './EditableSpan'
 import { Checkbox, IconButton } from '@material-ui/core'
 import { Check, Delete } from '@mui/icons-material'
 import './App.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppRootState } from './state/store'
+import { TaskStateType } from './AppWithRedux'
+import {
+	ChangeTaskStatusAC,
+	ChangeTaskTitleAC,
+	addTaskAC,
+	removeTaskAC,
+} from './state/Task-reducer'
+import { title } from 'process'
 
 export type TaskType = {
 	id: string
@@ -17,22 +27,18 @@ export type TaskType = {
 type PropsType = {
 	id: string
 	title: string
-	tasks: Array<TaskType>
-	removeTask: (id: string, todoListId: string) => void
 	changeFilter: (value: FilterValueType, todoListId: string) => void
-	addTask: (title: string, todoListId: string) => void
-	changeStatus: (taskId: string, isDone: boolean, todoListId: string) => void
-	changeTaskTitle: (
-		taskId: string,
-		newTitle: string,
-		todoListId: string
-	) => void
 	filter: FilterValueType
 	removeTodoList: (todoListId: string) => void
 	changeTodoListTitle: (id: string, newTitle: string) => void
 }
 
 export const TodoList = (props: PropsType) => {
+	const tasks = useSelector<AppRootState, Array<TaskType>>(
+		state => state.tasks[props.id]
+	)
+	const dispatch = useDispatch()
+
 	const onAllClickHandler = () => props.changeFilter('all', props.id)
 	const onActiveClickHandler = () => props.changeFilter('active', props.id)
 	const onCompletedClickHandler = () =>
@@ -45,8 +51,19 @@ export const TodoList = (props: PropsType) => {
 	}
 
 	const addTask = (title: string) => {
-		props.addTask(title, props.id)
+		dispatch(addTaskAC(title, props.id))
 	}
+
+	let allTodoListTasks = tasks
+	let tasksForTodoList = allTodoListTasks
+
+	if (props.filter === 'completed') {
+		tasksForTodoList = allTodoListTasks.filter(t => t.isDone === true)
+	}
+	if (props.filter === 'active') {
+		tasksForTodoList = allTodoListTasks.filter(t => t.isDone === false)
+	}
+
 	return (
 		<div className='container'>
 			<h3 style={{ margin: '20px' }}>
@@ -58,18 +75,23 @@ export const TodoList = (props: PropsType) => {
 					<Delete />
 				</IconButton>
 			</h3>
-			<AddItemForms addItem={addTask} />
+			<AddItemForms
+				addItem={title => {
+					dispatch(addTaskAC(title, props.id))
+				}}
+			/>
 			<div>
-				{props.tasks.map(t => {
+				{tasksForTodoList.map(t => {
 					const onRemoveHandler = () => {
-						props.removeTask(t.id, props.id)
+						dispatch(removeTaskAC(t.id, props.id))
 					}
 					const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-						props.changeStatus(t.id, e.currentTarget.checked, props.id)
+						let newIsDoneValue = e.currentTarget.checked
+						dispatch(ChangeTaskStatusAC(t.id, newIsDoneValue, props.id))
 					}
 
 					const onChangeTitleHandler = (newValue: string) => {
-						props.changeTaskTitle(t.id, newValue, props.id)
+						dispatch(ChangeTaskTitleAC(t.id, newValue, props.id))
 					}
 
 					return (
