@@ -1,12 +1,14 @@
 import { Button, IconButton, TextField } from '@material-ui/core'
 import { ControlPoint } from '@mui/icons-material'
+import React from 'react'
 import { ChangeEvent, useState } from 'react'
 import { KeyboardEvent } from 'react'
 
 export type AddItemFormsType = {
 	addItem: (title: string) => void
 }
-export const AddItemForms = (props: AddItemFormsType) => {
+export const AddItemForms = React.memo((props: AddItemFormsType) => {
+	console.log('AddItemForms component is called')
 	const [newTaskTitle, setNewTaskTitle] = useState('')
 	const [error, setError] = useState<string | null>(null)
 
@@ -15,7 +17,15 @@ export const AddItemForms = (props: AddItemFormsType) => {
 	}
 
 	const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-		setError(null)
+		if (e.key === 'Enter') {
+			if (newTaskTitle.trim() !== '') {
+				props.addItem(newTaskTitle.trim())
+				setNewTaskTitle('')
+				setError(null)
+			} else {
+				setError('Field is required')
+			}
+		}
 	}
 	const addTask = () => {
 		if (newTaskTitle.trim() !== '') {
@@ -44,4 +54,4 @@ export const AddItemForms = (props: AddItemFormsType) => {
 			</div>
 		</>
 	)
-}
+})

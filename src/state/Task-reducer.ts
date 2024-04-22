@@ -1,5 +1,5 @@
 import { v1 } from 'uuid'
-import { FilterValueType, ToDoListType } from '../App'
+import { FilterValueType } from '../App'
 import { TaskStateType } from './Todolists-reducer.test'
 
 type RemoveTaskActionType = {
@@ -104,7 +104,6 @@ export const tasksReducer = (
 			return stateCopy
 		}
 		case 'REMOVE-TODOLIST': {
-			console.log('11111')
 			const stateCopy = { ...state }
 
 			delete stateCopy[action.id]

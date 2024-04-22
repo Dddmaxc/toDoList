@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useCallback, useReducer, useState } from 'react'
 import './App.css'
 import { TaskType, TodoList } from './TodoList'
 import { v1 } from 'uuid'
@@ -13,20 +13,11 @@ import {
 } from '@material-ui/core'
 import { Menu } from '@mui/icons-material'
 import Typography from '@mui/material/Typography'
-import red from '@mui/material/colors'
-import {
-	ChangeTaskStatusAC,
-	ChangeTaskTitleAC,
-	addTaskAC,
-	removeTaskAC,
-	tasksReducer,
-} from './state/Task-reducer'
 import {
 	addTodoListAC,
 	changeTodoListFilterAC,
 	changeTodoListTitleAC,
 	removeTodoListAC,
-	todoListsReducer,
 } from './state/Todolists-reducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -51,25 +42,28 @@ function AppWithRedux() {
 	)
 	const tasks = useSelector<AppRootState, TaskStateType>(state => state.tasks)
 
-	function changeFilter(value: FilterValueType, todoListId: string) {
-		const action = changeTodoListFilterAC(todoListId, value)
-		dispatch(action)
-	}
+	let changeFilter = useCallback(
+		(value: FilterValueType, todoListId: string) => {
+			const action = changeTodoListFilterAC(todoListId, value)
+			dispatch(action)
+		},
+		[]
+	)
 
-	let removeTodoList = (todoListId: string) => {
+	let removeTodoList = useCallback((todoListId: string) => {
 		const action = removeTodoListAC(todoListId)
 		dispatch(action)
-	}
+	}, [])
 
-	let changeTodoListTitle = (id: string, newTitle: string) => {
+	let changeTodoListTitle = useCallback((id: string, newTitle: string) => {
 		const action = changeTodoListTitleAC(id, newTitle)
 		dispatch(action)
-	}
+	}, [])
 
-	const addTodoList = (title: string) => {
+	const addTodoList = useCallback((title: string) => {
 		const action = addTodoListAC(title)
 		dispatch(action)
-	}
+	}, [])
 
 	return (
 		<div className='App'>

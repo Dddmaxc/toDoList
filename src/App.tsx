@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
 import './App.css'
 import { TaskType, TodoList } from './TodoList'
 import { v1 } from 'uuid'
@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core'
 import { Menu } from '@mui/icons-material'
 import Typography from '@mui/material/Typography'
-import red from '@mui/material/colors'
 import {
 	ChangeTaskStatusAC,
 	ChangeTaskTitleAC,
