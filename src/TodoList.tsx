@@ -1,19 +1,14 @@
-import { ChangeEvent, useCallback } from 'react'
+import { useCallback } from 'react'
 import { FilterValueType } from './App'
 import { Button } from '@mui/material'
 import { AddItemForms } from './AddItemForm'
 import { EditableSpan } from './EditableSpan'
-import { Checkbox, IconButton } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import { Delete } from '@mui/icons-material'
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppRootState } from './state/store'
-import {
-	ChangeTaskStatusAC,
-	ChangeTaskTitleAC,
-	addTaskAC,
-	removeTaskAC,
-} from './state/Task-reducer'
+import { addTaskAC } from './state/Task-reducer'
 import React from 'react'
 import { Task } from './state/Task'
 

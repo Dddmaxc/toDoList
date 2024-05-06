@@ -1,7 +1,6 @@
-import React, { useCallback, useReducer, useState } from 'react'
+import { useCallback } from 'react'
 import './App.css'
 import { TaskType, TodoList } from './TodoList'
-import { v1 } from 'uuid'
 import { AddItemForms } from './AddItemForm'
 import {
 	AppBar,
@@ -85,7 +84,14 @@ function AppWithRedux() {
 					{todoLists.map(tl => {
 						return (
 							<Grid item>
-								<Paper style={{ padding: '20px' }}>
+								<Paper
+									style={{
+										padding: '20px',
+										background: 'transparent',
+										boxShadow:
+											'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;',
+									}}
+								>
 									<TodoList
 										key={tl.id}
 										id={tl.id}
