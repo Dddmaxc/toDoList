@@ -1,5 +1,5 @@
-import { useCallback } from 'react'
-import { FilterValueType } from './App'
+import { ChangeEvent, useCallback } from 'react'
+import { FilterValueType } from './AppWithRedux'
 import { Button } from '@mui/material'
 import { AddItemForms } from './AddItemForm'
 import { EditableSpan } from './EditableSpan'
@@ -8,9 +8,13 @@ import { Delete } from '@mui/icons-material'
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppRootState } from './state/store'
-import { addTaskAC } from './state/Task-reducer'
+import {
+	ChangeTaskStatusAC,
+	addTaskAC,
+	removeTaskAC,
+} from './state/Task-reducer'
 import React from 'react'
-import { Task } from './state/Task'
+import { Task } from './Task'
 
 export type TaskType = {
 	id: string
@@ -25,10 +29,19 @@ type PropsType = {
 	filter: FilterValueType
 	removeTodoList: (todoListId: string) => void
 	changeTodoListTitle: (id: string, newTitle: string) => void
+	onChangeStatusHandler: (
+		value: boolean,
+		taskId: string,
+		todoListId: string
+	) => void
+	onChangeTitleHandler: (
+		newValue: string,
+		taskId: string,
+		todoListId: string
+	) => void
 }
 
 export const TodoList = React.memo(function (props: PropsType) {
-	console.log('TodoList')
 	const tasks = useSelector<AppRootState, Array<TaskType>>(
 		state => state.tasks[props.id]
 	)
@@ -60,6 +73,10 @@ export const TodoList = React.memo(function (props: PropsType) {
 		dispatch(addTaskAC(title, props.id))
 	}, [])
 
+	const onRemoveHandler = (taskId: string, todoListId: string) => {
+		dispatch(removeTaskAC(taskId, todoListId))
+	}
+
 	let allTodoListTasks = tasks
 	let tasksForTodoList = allTodoListTasks
 
@@ -84,7 +101,14 @@ export const TodoList = React.memo(function (props: PropsType) {
 			<AddItemForms addItem={addTask} />
 			<div>
 				{tasksForTodoList.map(t => (
-					<Task task={t} todoListId={props.id} key={t.id} />
+					<Task
+						task={t}
+						todoListId={props.id}
+						key={t.id}
+						onRemoveHandler={onRemoveHandler}
+						onChangeStatusHandler={props.onChangeStatusHandler}
+						onChangeTitleHandler={props.onChangeTitleHandler}
+					/>
 				))}
 			</div>
 			<div>

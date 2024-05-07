@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { ChangeEvent, useCallback } from 'react'
 import './App.css'
 import { TaskType, TodoList } from './TodoList'
 import { AddItemForms } from './AddItemForm'
@@ -21,6 +21,7 @@ import {
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { AppRootState } from './state/store'
+import { ChangeTaskStatusAC, ChangeTaskTitleAC } from './state/Task-reducer'
 
 export type FilterValueType = 'all' | 'completed' | 'active'
 
@@ -39,7 +40,20 @@ function AppWithRedux() {
 	const todoLists = useSelector<AppRootState, Array<ToDoListType>>(
 		state => state.todoLists
 	)
-	const tasks = useSelector<AppRootState, TaskStateType>(state => state.tasks)
+
+	const onChangeStatusHandler = useCallback(
+		(value: boolean, taskId: string, todoListId: string) => {
+			dispatch(ChangeTaskStatusAC(taskId, value, todoListId))
+		},
+		[]
+	)
+
+	const onChangeTitleHandler = useCallback(
+		(newValue: string, taskId: string, todoListId: string) => {
+			dispatch(ChangeTaskTitleAC(taskId, newValue, todoListId))
+		},
+		[]
+	)
 
 	let changeFilter = useCallback(
 		(value: FilterValueType, todoListId: string) => {
@@ -83,13 +97,11 @@ function AppWithRedux() {
 				<Grid container spacing={3}>
 					{todoLists.map(tl => {
 						return (
-							<Grid item>
+							<Grid item key={tl.id}>
 								<Paper
 									style={{
 										padding: '20px',
 										background: 'transparent',
-										boxShadow:
-											'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;',
 									}}
 								>
 									<TodoList
@@ -100,6 +112,8 @@ function AppWithRedux() {
 										filter={tl.filter}
 										removeTodoList={removeTodoList}
 										changeTodoListTitle={changeTodoListTitle}
+										onChangeStatusHandler={onChangeStatusHandler}
+										onChangeTitleHandler={onChangeTitleHandler}
 									/>
 								</Paper>
 							</Grid>

@@ -11,6 +11,12 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
 }
+
+.MuiInputBase-input::placeholder {
+	color: rgb(245, 155, 193) !important;
+	font-size: 25px;
+}
 .MuiInputBase-input {
-	color: rgb(0, 0, 0) !important;
+	font-size: 25px !important;
+	color: #fff !important;
 }

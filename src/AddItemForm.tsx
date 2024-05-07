@@ -42,7 +42,7 @@ export const AddItemForms = React.memo((props: AddItemFormsType) => {
 				<TextField
 					value={newTaskTitle}
 					variant={'outlined'}
-					label={'Type value'}
+					placeholder={'Type value'}
 					onChange={onNewTitleChangeHandler}
 					onKeyPress={onKeyPressHandler}
 					error={!!error}

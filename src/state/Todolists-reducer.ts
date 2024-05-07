@@ -1,5 +1,5 @@
 import { v1 } from 'uuid'
-import { FilterValueType, ToDoListType } from '../App'
+import { FilterValueType, ToDoListType } from '../AppWithRedux'
 import { title } from 'process'
 
 type ActionType = {
