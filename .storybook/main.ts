@@ -13,7 +13,7 @@ const config: StorybookConfig = {
 			name: '@storybook/addon-storysource',
 			options: {
 				rule: {
-					test: [/\.stories\.tsx?$],
+					// test: [/\.stories\.tsx?$],
 				},
 				loaderOptions: {
 					prettierConfig: {
