@@ -2,12 +2,12 @@ import { EditableSpan } from './EditableSpan'
 import { action } from '@storybook/addon-actions'
 
 export default {
-	title: 'AddItemForm Component',
+	title: 'EditableSpan Component',
 	component: EditableSpan,
 }
 
-const callBack = action('Button "Add" was pressed inside the form')
+const changeCallback = action('title changed')
 
 export const EditableSpanExample = () => {
-	return <></>
+	return <EditableSpan title={'Start title'} onChange={changeCallback} />
 }
