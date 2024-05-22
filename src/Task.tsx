@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useCallback } from 'react'
 import { Checkbox, IconButton } from '@material-ui/core'
 import { Delete } from '@mui/icons-material'
 import React from 'react'
@@ -25,17 +25,23 @@ export const Task = React.memo((props: TaskPropsType) => {
 	const onRemoveHandlerCallback = () => {
 		props.onRemoveHandler(props.task.id, props.todoListId)
 	}
-	const onChangeStatusHandlerCallback = (e: ChangeEvent<HTMLInputElement>) => {
-		props.onChangeStatusHandler(
-			e.currentTarget.checked,
-			props.task.id,
-			props.todoListId
-		)
-	}
+	const onChangeStatusHandlerCallback = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			props.onChangeStatusHandler(
+				e.currentTarget.checked,
+				props.task.id,
+				props.todoListId
+			)
+		},
+		[props.task.id, props.todoListId]
+	)
 
-	const onChangeTitleHandlerCallback = (newValue: string) => {
-		props.onChangeTitleHandler(newValue, props.task.id, props.todoListId)
-	}
+	const onChangeTitleHandlerCallback = useCallback(
+		(newValue: string) => {
+			props.onChangeTitleHandler(newValue, props.task.id, props.todoListId)
+		},
+		[props.task.id]
+	)
 
 	return (
 		<div key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>

@@ -45,14 +45,14 @@ function AppWithRedux() {
 		(value: boolean, taskId: string, todoListId: string) => {
 			dispatch(ChangeTaskStatusAC(taskId, value, todoListId))
 		},
-		[]
+		[dispatch]
 	)
 
 	const onChangeTitleHandler = useCallback(
 		(newValue: string, taskId: string, todoListId: string) => {
 			dispatch(ChangeTaskTitleAC(taskId, newValue, todoListId))
 		},
-		[]
+		[dispatch]
 	)
 
 	let changeFilter = useCallback(
@@ -60,23 +60,32 @@ function AppWithRedux() {
 			const action = changeTodoListFilterAC(todoListId, value)
 			dispatch(action)
 		},
-		[]
+		[dispatch]
 	)
 
-	let removeTodoList = useCallback((todoListId: string) => {
-		const action = removeTodoListAC(todoListId)
-		dispatch(action)
-	}, [])
+	let removeTodoList = useCallback(
+		(todoListId: string) => {
+			const action = removeTodoListAC(todoListId)
+			dispatch(action)
+		},
+		[dispatch]
+	)
 
-	let changeTodoListTitle = useCallback((id: string, newTitle: string) => {
-		const action = changeTodoListTitleAC(id, newTitle)
-		dispatch(action)
-	}, [])
+	let changeTodoListTitle = useCallback(
+		(id: string, newTitle: string) => {
+			const action = changeTodoListTitleAC(id, newTitle)
+			dispatch(action)
+		},
+		[dispatch]
+	)
 
-	const addTodoList = useCallback((title: string) => {
-		const action = addTodoListAC(title)
-		dispatch(action)
-	}, [])
+	const addTodoList = useCallback(
+		(title: string) => {
+			const action = addTodoListAC(title)
+			dispatch(action)
+		},
+		[dispatch]
+	)
 
 	return (
 		<div className='App'>
