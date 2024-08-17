@@ -8,7 +8,6 @@ export type AddItemFormsType = {
 	addItem: (title: string) => void
 }
 export const AddItemForms = React.memo((props: AddItemFormsType) => {
-	console.log('AddItemForms component is called')
 	const [newTaskTitle, setNewTaskTitle] = useState('')
 	const [error, setError] = useState<string | null>(null)
 
@@ -45,7 +44,7 @@ export const AddItemForms = React.memo((props: AddItemFormsType) => {
 					placeholder={'Type value'}
 					onChange={onNewTitleChangeHandler}
 					onKeyPress={onKeyPressHandler}
-					error={!!error}
+					error={!!error} 
 					helperText={error}
 				/>
 				<IconButton onClick={addTask} color={'primary'}>

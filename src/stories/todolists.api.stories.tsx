@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {
 	TaskType,
@@ -10,7 +9,7 @@ export default {
 	title: 'API',
 }
 
-const settings = {
+export const settings = {
 	withCredentials: true,
 	headers: {
 		'API-Key': 'e1a6e491-0aa1-4106-93a0-5b2ea39aedff',
@@ -82,7 +81,7 @@ export const GetTasks = () => {
 	const [state, setState] = useState<any>(null)
 
 	useEffect(() => {
-		const todoListId = '963ef247-a73a-4312-8d37-8b6bca403215'
+		const todoListId = 'acb99b0b-3162-4709-9a1a-e206932cb99e'
 		todoListsAPI.getTasks(todoListId).then(res => {
 			setState(res.data)
 		})

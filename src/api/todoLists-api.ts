@@ -19,22 +19,18 @@ export type TodoListType = {
 	order: number
 }
 
-export type CreateTodoListResponseType = {
-	resultCode: number
-	message: Array<string>
-	data: {
-		item: TodoListType
-	}
+export enum TaskStatuses {
+	New = 0,
+	InProgress = 1,
+	Completed = 2,
+	Draft = 3,
 }
-export type DeleteTodoListResponseType = {
-	resultCode: number
-	message: Array<string>
-	data: {}
-}
-export type UpdateTodoListResponseType = {
-	resultCode: number
-	message: Array<string>
-	data: {}
+export enum TaskPriorities {
+	Low = 0,
+	Midlle = 1,
+	Hi = 2,
+	Urgently = 3,
+	Later = 4,
 }
 
 type ResponseType<D = {}> = {
@@ -47,8 +43,8 @@ export type TaskType = {
 	description: string
 	title: string
 	completed: boolean
-	status: number
-	priority: number
+	status: TaskStatuses
+	priority: TaskPriorities
 	startDate: string
 	deadline: string
 	id: string
@@ -60,7 +56,7 @@ export type TaskType = {
 type GetTasksResponseType = {
 	error: string | null
 	totalCount: number
-	item: TaskType[]
+	items: TaskType[]
 }
 
 export type UpdateTasksModelResponseType = {
@@ -86,11 +82,11 @@ export const todoListsAPI = {
 		return promise
 	},
 	DeleteTodoList(id: string) {
-		const promise = instance.delete<ResponseType>(`todo-lists/ ${id}`)
+		const promise = instance.delete<ResponseType<{}>>(`todo-lists/ ${id}`)
 		return promise
 	},
 	UpdateTodoList(id: string, title: string) {
-		const promise = instance.put<ResponseType>(`todo-lists/ ${id}`, {
+		const promise = instance.put<ResponseType<{}>>(`todo-lists/ ${id}`, {
 			title: title,
 		})
 		return promise
