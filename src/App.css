@@ -3,7 +3,7 @@
 	background-image: url('/public/e.gif');
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-position: center;
+	background-position: center center;
 	background-attachment: fixed;
 }
 
@@ -12,8 +12,11 @@
 	background: #202233;
 	border: 3px solid #000000;
 	border-radius: 15px;
-	box-shadow: 0 1px 1px rgba(255, 0, 230, 0.08), 0 2px 2px rgba(0, 0, 0, 0.12),
-		0 4px 4px rgba(0, 0, 0, 0.16), 0 8px 8px rgba(0, 0, 0, 0.2);
+	box-shadow:
+		0 1px 1px rgba(255, 0, 230, 0.08),
+		0 2px 2px rgba(0, 0, 0, 0.12),
+		0 4px 4px rgba(0, 0, 0, 0.16),
+		0 8px 8px rgba(0, 0, 0, 0.2);
 	opacity: 0.8;
 }
 

@@ -5,12 +5,18 @@ import { EditableSpan } from './EditableSpan'
 import { IconButton } from '@material-ui/core'
 import { Delete } from '@mui/icons-material'
 import './App.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { AppRootState, useAppDispatch } from './state/store'
-import { addTaskAC, fetchTasksTC, removeTaskAC } from './state/Task-reducer'
+import {
+	addTaskAC,
+	addTasksTC,
+	fetchTasksTC,
+	removeTaskAC,
+	removeTasksTC,
+} from './state/Task-reducer'
 import React from 'react'
 import { Task } from './Task'
-import { TaskStatuses, TaskType } from './api/todoLists-api'
+import { TaskStatuses, TaskType, todoListsAPI } from './api/todoLists-api'
 import { FilterValueType } from './state/Todolists-reducer'
 
 type PropsType = {
@@ -65,12 +71,14 @@ export const TodoList = React.memo(function (props: PropsType) {
 	)
 
 	const addTask = useCallback((title: string) => {
-		dispatch(addTaskAC(title, props.id))
+		const thunk = addTasksTC(props.id, title)
+		dispatch(thunk)
 	}, [])
 
-	const onRemoveHandler = (taskId: string, todoListId: string) => {
-		dispatch(removeTaskAC(taskId, todoListId))
-	}
+	const onRemoveHandler = useCallback((todoListId: string, taskId: string) => {
+		const thunk = removeTasksTC(todoListId, taskId)
+		dispatch(thunk)
+	}, [])
 
 	let allTodoListTasks = tasks
 	let tasksForTodoList = allTodoListTasks

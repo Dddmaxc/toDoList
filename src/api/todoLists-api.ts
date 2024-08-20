@@ -86,7 +86,7 @@ export const todoListsAPI = {
 		return promise
 	},
 	UpdateTodoList(id: string, title: string) {
-		const promise = instance.put<ResponseType<{}>>(`todo-lists/ ${id}`, {
+		const promise = instance.put<ResponseType<{}>>(`todo-lists/${id}`, {
 			title: title,
 		})
 		return promise
@@ -98,7 +98,7 @@ export const todoListsAPI = {
 
 	deleteTask(todoListId: string, taskId: string) {
 		return instance.delete<ResponseType>(
-			`todo-lists/ ${todoListId}/tasks/ ${taskId}`
+			`todo-lists/${todoListId}/tasks/${taskId}`
 		)
 	},
 
@@ -113,9 +113,9 @@ export const todoListsAPI = {
 		)
 	},
 
-	CreateTask(todoListId: string, taskId: string, title: string) {
-		const promise = instance.post<ResponseType<{ item: TodoListType }>>(
-			`todo-lists/ ${todoListId}/tasks/ ${taskId}`,
+	CreateTask(todoListId: string, title: string) {
+		const promise = instance.post<ResponseType<{ item: TaskType }>>(
+			`todo-lists/${todoListId}/tasks`,
 			{ title: title }
 		)
 		return promise

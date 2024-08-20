@@ -3,15 +3,10 @@ import {
 	ChangeTaskTitleAC,
 	addTaskAC,
 	removeTaskAC,
-	setTasksAC,
 	tasksReducer,
 } from './Task-reducer'
 import { TaskStateType } from '../AppWithRedux'
-import {
-	addTodoListAC,
-	removeTodoListAC,
-	todolistId1,
-} from './Todolists-reducer'
+import { addTodoListAC, removeTodoListAC } from './Todolists-reducer'
 import { TaskPriorities, TaskStatuses } from '../api/todoLists-api'
 
 test('correct task should be deleted from correct array', () => {
@@ -220,13 +215,26 @@ test('correct task should be added to correct array', () => {
 		],
 	}
 
-	const action = addTaskAC('Juce', 'todoListId2')
+	// const action = addTaskAC('Juce', 'todoListId2')
+	const action = addTaskAC({
+		todoListId: 'todoListId1',
+		title: 'lol',
+		status: TaskStatuses.New,
+		addedDate: '',
+		deadline: '',
+		description: '',
+		order: 0,
+		priority: 0,
+		startDate: '',
+		completed: false,
+		id: '2',
+	})
 	const andState = tasksReducer(startState, action)
 
 	expect(andState.todoListId1.length).toBe(5)
 	expect(andState.todoListId2.length).toBe(3)
 	expect(andState.todoListId2[0].id).toBeDefined()
-	expect(andState.todoListId2[0].title).toBe('Juce')
+	expect(andState.todoListId2[0].title).toBe('lol')
 	expect(andState.todoListId2[0].status).toBe(TaskStatuses.New)
 })
 

@@ -45,7 +45,8 @@ function AppWithRedux() {
 
 	const onChangeStatusHandler = useCallback(
 		(status: TaskStatuses, taskId: string, todoListId: string) => {
-			dispatch(ChangeTaskStatusAC(taskId, status, todoListId))
+			const action = ChangeTaskStatusAC(taskId, status, todoListId)
+			dispatch(action)
 		},
 		[dispatch]
 	)

@@ -8,7 +8,7 @@ import { TaskStatuses, TaskType } from './api/todoLists-api'
 type TaskPropsType = {
 	task: TaskType
 	todoListId: string
-	onRemoveHandler: (taskId: string, todoId: string) => void
+	onRemoveHandler: (todoId: string, taskId: string) => void
 	onChangeStatusHandler: (
 		status: TaskStatuses,
 		taskId: string,
@@ -23,7 +23,9 @@ type TaskPropsType = {
 
 export const Task = React.memo((props: TaskPropsType) => {
 	const onRemoveHandlerCallback = () => {
-		props.onRemoveHandler(props.task.id, props.todoListId)
+		console.log(props.task)
+		console.log(props)
+		props.onRemoveHandler(props.todoListId, props.task.id)
 	}
 	const onChangeStatusHandlerCallback = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {

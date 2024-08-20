@@ -151,7 +151,7 @@ export const CreateTask = () => {
 	let todoListId = '45e09f82-26f9-4658-bc08-86b7ddbba9ab'
 	let tasksId = ''
 	useEffect(() => {
-		todoListsAPI.CreateTask(todoListId, tasksId, 'Fear The Pain').then(res => {
+		todoListsAPI.CreateTask(todoListId, 'Fear The Pain').then(res => {
 			setState(res.data)
 		})
 	}, [])
