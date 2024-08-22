@@ -23,8 +23,6 @@ type TaskPropsType = {
 
 export const Task = React.memo((props: TaskPropsType) => {
 	const onRemoveHandlerCallback = () => {
-		console.log(props.task)
-		console.log(props)
 		props.onRemoveHandler(props.todoListId, props.task.id)
 	}
 	const onChangeStatusHandlerCallback = useCallback(

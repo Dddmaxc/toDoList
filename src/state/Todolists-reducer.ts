@@ -8,8 +8,7 @@ export type RemoveTodoListActionType = {
 }
 export type AddTotodlistActionType = {
 	type: 'ADD-TODOLIST'
-	title: string
-	todoListId: string
+	todoList: TodoListType
 }
 export type ChangeTotodlistTitleActionType = {
 	type: 'CHANGE-TODOLIST-TITLE'
@@ -52,16 +51,11 @@ export const todoListsReducer = (
 			return state.filter(t => t.id != action.id)
 		}
 		case 'ADD-TODOLIST': {
-			return [
-				{
-					id: action.todoListId,
-					title: action.title,
-					filter: 'all',
-					addedData: '',
-					order: 0,
-				},
-				...state,
-			]
+			const newTodoList: TodoListDomainType = {
+				...action.todoList,
+				filter: 'all',
+			}
+			return [newTodoList, ...state]
 		}
 		case 'CHANGE-TODOLIST-TITLE': {
 			let todoList = state.find(t => t.id === action.id)
@@ -95,8 +89,10 @@ export const removeTodoListAC = (
 	return { type: 'REMOVE-TODOLIST', id: todoListId }
 }
 
-export const addTodoListAC = (title: string): AddTotodlistActionType => {
-	return { type: 'ADD-TODOLIST', title, todoListId: v1() }
+export const addTodoListAC = (
+	todoList: TodoListType
+): AddTotodlistActionType => {
+	return { type: 'ADD-TODOLIST', todoList }
 }
 
 export const changeTodoListTitleAC = (
@@ -120,6 +116,32 @@ export const fetchTodoListsTC = () => {
 	return (dispatch: Dispatch) => {
 		todoListsAPI.getTodoLists().then(res => {
 			dispatch(setTodoListAC(res.data))
+		})
+	}
+}
+
+export const removeTodoListsTC = (todoListId: string) => {
+	return (dispatch: Dispatch) => {
+		todoListsAPI.DeleteTodoList(todoListId).then(res => {
+			dispatch(removeTodoListAC(todoListId))
+		})
+	}
+}
+
+export const addTodoListsTC = (title: string) => {
+	return (dispatch: Dispatch) => {
+		todoListsAPI.CreateTodoList(title).then(res => {
+			const action = addTodoListAC(res.data.data.item)
+			dispatch(action)
+		})
+	}
+}
+
+export const updateTodoListsTC = (id: string, title: string) => {
+	return (dispatch: Dispatch) => {
+		todoListsAPI.UpdateTodoList(id, title).then(res => {
+			const action = changeTodoListTitleAC(id, title)
+			dispatch(action)
 		})
 	}
 }

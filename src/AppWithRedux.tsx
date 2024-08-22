@@ -14,18 +14,21 @@ import { Menu } from '@mui/icons-material'
 import Typography from '@mui/material/Typography'
 import {
 	addTodoListAC,
+	addTodoListsTC,
 	changeTodoListFilterAC,
 	changeTodoListTitleAC,
 	fetchTodoListsTC,
 	FilterValueType,
 	removeTodoListAC,
+	removeTodoListsTC,
 	setTodoListAC,
 	TodoListDomainType,
+	updateTodoListsTC,
 } from './state/Todolists-reducer'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { AppRootState, useAppDispatch } from './state/store'
-import { ChangeTaskStatusAC, ChangeTaskTitleAC } from './state/Task-reducer'
+import { updateTaskTC, ChangeTaskTitleAC } from './state/Task-reducer'
 import { TaskStatuses, TaskType, todoListsAPI } from './api/todoLists-api'
 
 export type TaskStateType = {
@@ -45,15 +48,16 @@ function AppWithRedux() {
 
 	const onChangeStatusHandler = useCallback(
 		(status: TaskStatuses, taskId: string, todoListId: string) => {
-			const action = ChangeTaskStatusAC(taskId, status, todoListId)
-			dispatch(action)
+			const thunk = updateTaskTC(taskId, { status }, todoListId)
+			dispatch(thunk)
 		},
 		[dispatch]
 	)
 
 	const onChangeTitleHandler = useCallback(
 		(newValue: string, taskId: string, todoListId: string) => {
-			dispatch(ChangeTaskTitleAC(taskId, newValue, todoListId))
+			const thunk = updateTaskTC(taskId, { title: newValue }, todoListId)
+			dispatch(thunk)
 		},
 		[dispatch]
 	)
@@ -68,24 +72,24 @@ function AppWithRedux() {
 
 	let removeTodoList = useCallback(
 		(todoListId: string) => {
-			const action = removeTodoListAC(todoListId)
-			dispatch(action)
+			const thunk = removeTodoListsTC(todoListId)
+			dispatch(thunk)
 		},
 		[dispatch]
 	)
 
 	let changeTodoListTitle = useCallback(
 		(id: string, newTitle: string) => {
-			const action = changeTodoListTitleAC(id, newTitle)
-			dispatch(action)
+			const thunk = updateTodoListsTC(id, newTitle)
+			dispatch(thunk)
 		},
 		[dispatch]
 	)
 
 	const addTodoList = useCallback(
 		(title: string) => {
-			const action = addTodoListAC(title)
-			dispatch(action)
+			const thunk = addTodoListsTC(title)
+			dispatch(thunk)
 		},
 		[dispatch]
 	)

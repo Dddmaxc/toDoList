@@ -1,5 +1,5 @@
 import {
-	ChangeTaskStatusAC,
+	updateTaskAC,
 	ChangeTaskTitleAC,
 	addTaskAC,
 	removeTaskAC,
@@ -337,7 +337,7 @@ test('status of specified task should be change', () => {
 		],
 	}
 
-	const action = ChangeTaskStatusAC('2', TaskStatuses.New, 'todoListId2')
+	const action = updateTaskAC('2', { status: TaskStatuses.New }, 'todoListId2')
 	const andState = tasksReducer(startState, action)
 
 	expect(andState.todoListId2[1].status).toBeFalsy()
@@ -442,7 +442,7 @@ test('title of specified task should be change', () => {
 		],
 	}
 
-	const action = ChangeTaskTitleAC('2', 'MilkyWay', 'todoListId2')
+	const action = updateTaskAC('2', { title: 'MilkyWay' }, 'todoListId2')
 	const andState = tasksReducer(startState, action)
 
 	expect(andState.todoListId2[1].title).toBe('MilkyWay')
@@ -547,11 +547,16 @@ test('new property with new array should be added when todoList is added', () =>
 		],
 	}
 
-	const action = addTodoListAC('new TodoList')
+	const action = addTodoListAC({
+		id: 'lol',
+		title: 'new todoList',
+		order: 0,
+		addedData: '',
+	})
 	const andState = tasksReducer(startState, action)
 
 	const keys = Object.keys(andState)
-	const newKeys = keys?.find(k => k != 'todoListId1' && k != 'todoListId2')
+	const newKeys = keys.find(k => k != 'todoListId1' && k != 'todoListId2')
 	if (!newKeys) {
 		throw new Error('new key should be added')
 	}

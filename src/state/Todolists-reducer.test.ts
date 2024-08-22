@@ -1,4 +1,4 @@
-import { TaskType, TodoListType } from '../api/todoLists-api'
+import { TodoListType } from '../api/todoLists-api'
 import {
 	addTodoListAC,
 	changeTodoListFilterAC,
@@ -42,7 +42,12 @@ test('current todoList should be add', () => {
 	let todolistId1 = v1()
 	let todolistId2 = v1()
 
-	let newTodoListTitle = 'New TodoList'
+	let todoList: TodoListType = {
+		title: 'new todoList',
+		id: 'any',
+		addedData: '',
+		order: 0,
+	}
 
 	const startState: Array<TodoListDomainType> = [
 		{
@@ -61,10 +66,10 @@ test('current todoList should be add', () => {
 		},
 	]
 
-	const endState = todoListsReducer(startState, addTodoListAC(newTodoListTitle))
+	const endState = todoListsReducer(startState, addTodoListAC(todoList))
 
 	expect(endState.length).toBe(3)
-	expect(endState[0].title).toBe(newTodoListTitle)
+	expect(endState[0].title).toBe(todoList.title)
 	expect(endState[2].filter).toBe('all')
 })
 test('current todoList should be change its name', () => {
